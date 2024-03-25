@@ -29,7 +29,7 @@ export default function Home() {
   );
 }
 
-export function ClaimYourProfileButton() {
+const ClaimYourProfileButton = () => {
   const router = useRouter();
   return (
     <div className="flex justify-center text-center">
@@ -45,4 +45,4 @@ export function ClaimYourProfileButton() {
       </HoverBorderGradient>
     </div>
   );
-}
+};
