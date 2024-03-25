@@ -7,8 +7,9 @@ import { searchProfiles } from "@/services/apollo";
 import { HoverEffect } from "@/components/card-hover-effect";
 import { BackgroundBeams } from "@/components/background-beams";
 import { toHTTP } from "@/utils/ipfs";
+import { Suspense } from "react";
 
-const Page: React.FC = () => {
+const PageWrapper = () => {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("query") ?? undefined;
 
@@ -17,7 +18,7 @@ const Page: React.FC = () => {
   });
 
   const players = data?.player ?? [];
-  const formattedData = players.map((player) => {
+  const formattedData = players.map((player: any) => {
     const { profile } = player;
     return {
       name: profile.name,
@@ -29,17 +30,27 @@ const Page: React.FC = () => {
     };
   });
   console.log("searchParams", players);
-
   return (
     <main>
       <div className="mt-16">
-        <SearchProfilesComponent val={searchQuery} />
+        <Suspense>
+          <SearchProfilesComponent val={searchQuery} />
+        </Suspense>
       </div>
+
       <div className="max-w-5xl mx-auto px-8">
         <HoverEffect items={formattedData} />
       </div>
       <BackgroundBeams />
     </main>
+  );
+};
+
+const Page: React.FC = () => {
+  return (
+    <Suspense>
+      <PageWrapper />
+    </Suspense>
   );
 };
 
